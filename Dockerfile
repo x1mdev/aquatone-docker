@@ -1,16 +1,20 @@
-FROM ruby
+FROM knjcode/rpi-node-armv7
 WORKDIR /
 
-# Prepare
+# Prepare - skip upgrade for dev
 RUN apt-get update
-RUN apt-get dist-upgrade -y
+# RUN apt-get upgrade -y
 
 # Install normal Packages needed
-RUN apt-get install -y -u apt-utils unzip wget curl jruby nano screen htop openssl git
+RUN apt-get install -y -u apt-utils unzip wget curl jruby nano screen htop openssl git ruby-full
 
 # Install nodejs
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get install -y nodejs
+# RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+# RUN apt-get install -y nodejs
+
+# Install nodejs arm
+RUN wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+RUN dpkg -i node_latest_armhf.deb
 
 # Installing the packages needed to run Nightmare
 RUN apt-get install -y \
@@ -32,15 +36,16 @@ RUN apt-get install -y \
   libcups2-dev \
   libxtst-dev \
   libxss1 \
-  libnss3-dev \
-  gcc-multilib \
-  g++-multilib
+  libnss3-dev
+#  gcc-multilib
+#  g++-multilib
+# need to find replacement for those 2
 
 # Use aq domain.com to automated all options of aquatone.
 RUN wget "https://gist.githubusercontent.com/random-robbie/beae1991e9ad139c6168c385d8a31f7d/raw/" -O /bin/aq
 RUN chmod 777 /bin/aq
 
-#install aquatone
-RUN gem install aquatone
+#install aquatone - not working yet
+#RUN gem install aquatone
 # set to bash so you can set keys before running aquatone.
 ENTRYPOINT ["/bin/bash"]
