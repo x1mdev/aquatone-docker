@@ -31,9 +31,10 @@ RUN apt-get install -y \
   libcups2-dev \
   libxtst-dev \
   libxss1 \
-  libnss3-dev \
-  gcc-multilib \
-  g++-multilib
+  libnss3-dev
+#  gcc-multilib
+#  g++-multilib
+# not sure if these are needed after all. Sources say gcc and g++ will NNEVER work on rpi :/
 
 # Use aq domain.com to automated all options of aquatone.
 RUN wget "https://gist.githubusercontent.com/random-robbie/beae1991e9ad139c6168c385d8a31f7d/raw/" -O /bin/aq
